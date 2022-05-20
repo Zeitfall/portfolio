@@ -1,0 +1,26 @@
+.main {
+  padding: 100px 0 20px 0;
+
+  &__container {
+  }
+
+  &__body {
+    height: 100%;
+    display: grid;
+    grid-template: 1fr / repeat(auto-fit, minmax(360px, 1fr));
+  }
+
+  &__content {
+  }
+
+  &__particles {
+  }
+}
+
+@media(max-width: 424.98px) {
+  .main {
+    &__body {
+      grid-template: 1fr / repeat(auto-fit, minmax(260px, 1fr));
+    }
+  }
+}
