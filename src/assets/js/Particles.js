@@ -5,6 +5,8 @@ class Circle {
 
     this.radius = radius;
     this.color = color;
+    this.circleOpacity = 1;
+    this.lineOpacity = 0;
 
     this.x = Math.random() * (this.canvas.width - this.radius) + this.radius;
     this.y = Math.random() * (this.canvas.height - this.radius) + this.radius;
@@ -12,10 +14,8 @@ class Circle {
     this.velocity = { x: Math.random() - .5, y: Math.random() - .5 };
   }
 
-  get create() { new this(); }
-
   #draw() {
-    this.context.fillStyle = this.color;
+    this.context.fillStyle = `rgba(255, 255, 255, ${ this.circleOpacity })`;
     this.context.beginPath();
     this.context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     this.context.fill();
@@ -32,9 +32,9 @@ class Circle {
       const distance = (x1 - x0)**2 + (y1 - y0)**2;
 
       if(distance < lineLength**2) {
-        const opacity = 1 - Math.sqrt(distance) / lineLength;
+        this.lineOpacity = 1 - Math.sqrt(distance) / lineLength;
 
-        this.context.strokeStyle = `rgba(255, 255, 255, ${ opacity })`;
+        this.context.strokeStyle = `rgba(255, 255, 255, ${ this.lineOpacity })`;
 
         this.context.beginPath();
         this.context.moveTo(x0, y0);
@@ -47,6 +47,18 @@ class Circle {
   update() {
     this.x += this.velocity.x;
     this.y += this.velocity.y;
+
+    if(this.x < 0 || this.x > this.canvas.width) {
+      this.circleOpacity = 0;
+      this.x = Math.random() * (this.canvas.width - this.radius) + this.radius;
+    }
+
+    if(this.y < 0 || this.y > this.canvas.height) {
+      this.circleOpacity = 0;
+      this.y = Math.random() * (this.canvas.height - this.radius) + this.radius;
+    }
+
+    if(this.circleOpacity < 1) this.circleOpacity += .05;
 
     if(
       this.x < this.radius || 
@@ -69,7 +81,10 @@ export class Particles {
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d');
     this.options = options;
+
     this.mousePosition = { x: null, y: null };
+    this.opacity = 1;
+    this.touched = false;
 
     this.#interact();
     this.#init();
@@ -98,16 +113,25 @@ export class Particles {
       this.mousePosition.x = null;
       this.mousePosition.y = null;
     });
+
+    window.addEventListener('mousemove', () => { if(this.opacity > 0) this.opacity -= .0125 });
+
+    window.addEventListener('touchstart', () => this.touched = true);
+
+    window.addEventListener('touchend', () => this.touched = false);
   }
 
   animate() {
-    this.context.fillStyle = `rgba(0, 0, 0, 1)`;
+    this.context.fillStyle = `rgba(0, 0, 0, ${ this.opacity })`;
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   
     for(let i = 0; i < this.particles.length; i++) {
       this.particles[i].update();
-      this.particles[i].connect([...this.particles, { ...this.mousePosition }]);
+      this.particles[i].connect([...this.particles, { ...this.mousePosition }], { lineLength: 150 });
     }
+
+    if(this.touched && this.opacity > 0) this.opacity -= .0125;
+    else if(!this.touched && this.opacity < 1) this.opacity += .005;
 
     requestAnimationFrame(this.animate.bind(this));
   }

@@ -4,16 +4,13 @@
       <div class="footer__body">
         <nav class="footer__nav nav">
           <div class="nav__body">
-            <div class="nav__link">
-              <span>Email:</span>
-              <a target="_blank" href="mailto:zzeitfall@gmail.com">zzeitfall@gmail.com</a>
-            </div>
-            <div class="nav__link">
-              <span>Phone:</span>
-              <a target="_blank" href="tel:+380502987565">+380502987565</a>
-            </div>
-            <div class="nav__link">
-              <a target="_blank" href="https://t.me/zeitfall">Telegram</a>
+            <div
+              class="nav__link"
+              v-for="l in navLinks"
+              :key="l.path"
+            >
+              <span v-if="l.title">{{ l.title }}:</span>
+              <a target="_blank" :href="l.path">{{ l.content }}</a>
             </div>
           </div>
         </nav>
@@ -23,6 +20,29 @@
     </div>
   </footer>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+
+const navLinks = ref([
+  {
+    title: 'Email',
+    content: 'zzeitfall@gmail.com',
+    path: 'mailto:zzeitfall@gmail.com',
+  },
+  {
+    title: 'Phone',
+    content: '+380502987565',
+    path: 'tel:+380502987565',
+  },
+  {
+    title: '',
+    content: 'Telegram',
+    path: 'https://t.me/zeitfall',
+  }
+]);
+</script>
+
 
 <style lang="scss" scoped>
 @import '@/assets/scss/vars.scss';
@@ -44,14 +64,18 @@
 
   &__logo {
     position: relative;
-    font-size: 14px;
+    // font-family: monospace;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .5px;
     transform: rotate(270deg);
 
     &:before {
+      // display: none;
       content: '';
       position: absolute;
       bottom: -7px;
-      width: 100%;
+      width: calc(100% - 10px);
       height: 2px;
       background-color: $txt-color;
       opacity: .75;
@@ -65,10 +89,8 @@
 
     a { text-decoration: underline; }
   }
-}
 
-@media(max-width: 579.98px) {
-  .nav {
+  @media(max-width: 579.98px) {
     &__body {
       flex-direction: column;
       align-items: flex-start;
@@ -76,4 +98,5 @@
     }
   }
 }
+
 </style>

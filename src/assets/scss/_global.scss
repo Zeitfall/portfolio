@@ -54,9 +54,13 @@
 
     &_active {
       &:before { 
-        width: 100%;
+        width: calc(100% - 5px);
         transition: width .5s ease-in-out;
       }
+    }
+
+    @media(max-width: 340.02px) {
+      font-size: 14px;
     }
   }
 }

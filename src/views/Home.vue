@@ -4,16 +4,13 @@
       <div class="main__body">
         <section class="main__content content">
           <div class="content__body">
-            <div class="content__title title">Description</div>
-            <div class="content__text text">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque assumenda corporis eius quo sapiente! Ipsam molestiae vitae, magnam dolorem est architecto minus cum reiciendis similique saepe et ex nulla obcaecati explicabo iusto repudiandae quia! Odio, distinctio modi ut aut autem sapiente quisquam voluptatem nulla, officia sequi repellat illum repudiandae possimus nisi debitis nemo officiis. Facilis velit sint vel aliquam laudantium? Assumenda quod ex magni fugiat temporibus minus sequi tempora odit dolore, modi quaerat adipisci nesciunt libero laborum? Reprehenderit, iste. Praesentium, veniam impedit quia dolore non exercitationem consequuntur numquam est placeat repellat, nobis nostrum, voluptate aliquam at ea optio saepe asperiores ut repellendus iste maxime distinctio eligendi! Id itaque nemo, corporis tenetur exercitationem vero eaque natus laboriosam architecto, numquam odit provident ducimus! Aspernatur ea facere itaque ex odio deserunt enim id tempore, molestiae accusamus culpa perspiciatis repellat praesentium nisi sequi, fugiat repudiandae? Repellat totam vero iure commodi, molestiae corrupti a rerum consequuntur illo sed. Rem, mollitia. Veniam, autem reiciendis! Ipsum obcaecati cumque dignissimos itaque architecto error esse vitae dolorem, nesciunt, numquam mollitia cum recusandae veniam beatae totam quidem provident porro accusamus debitis quam corporis! Inventore beatae harum, velit id nobis esse itaque eum commodi, temporibus consequatur, eos vero asperiores qui tenetur iure eligendi eveniet libero. Voluptatibus, repudiandae fugiat. Ratione animi distinctio doloribus, sint, sequi enim assumenda temporibus ab deleniti dolorem error dicta culpa laborum repudiandae odit modi? Perferendis, ut odio. Voluptates et enim aliquid debitis voluptatum aspernatur est eaque ut consequatur incidunt, nostrum accusamus iusto provident ducimus accusantium cupiditate. Fugit, laboriosam?
+            <div class="content__title title" ref="title" @click="test">Hello!</div>
+            <div class="content__text text" ref="text1">
+              I'm Vlad Matsko – teenage front-end developer, based in Kropyvnytskyi, Ukraine.
             </div>
-          </div>
-        </section>
-
-        <section class="main__particles particles">
-          <div class="particles__body">
-            <!-- <canvas class="particles__canvas" ref="canvas"></canvas> -->
+            <div class="content__text text" ref="text2">
+              Interested in math, machine learning, web development, web design, animations and music making.
+            </div>
           </div>
         </section>
       </div>
@@ -22,27 +19,90 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { Particles } from '@/assets/js/Particles.js';
+import { ref } from 'vue';
+import { useMotion } from '@vueuse/motion';
+
+/** motion */
+const title = ref();
+const text1 = ref();
+const text2 = ref();
+
+useMotion(title, {
+  initial: {
+    opacity: 0,
+    x: -100
+  },
+  enter: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: 100,
+      duration: 500,
+    }
+  }
+});
+useMotion(text1, {
+  initial: {
+    opacity: 0,
+    x: -100
+  },
+  enter: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: 250,
+      duration: 500,
+    }
+  }
+});
+useMotion(text2, {
+  initial: {
+    opacity: 0,
+    x: -100
+  },
+  enter: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: 400,
+      duration: 500,
+    }
+  }
+});
+
+const test = () => {
+  window.scrollTo(0, document.body.scrollHeight);
+};
 </script>
 
 <style lang="scss" scoped>
 .content {
+  z-index: 3;
 
   &__body {
   }
 
   &__title {
-    margin: 0 0 20px 0;
-  }
-}
-
-.particles {
-  &__body {
-    height: 100%;
+    // padding: 0 0 0 10px;
+    margin: 0 0 30px 0;
+    font-weight: 900;
   }
 
-  &__canvas {
+  &__text {
+    position: relative;
+    padding: 0 0 0 15px;
+    margin: 0 0 10px 0;
+
+    // &:before {
+    //   content: '';
+    //   position: absolute;
+    //   top: 6.5px;
+    //   left: 0;
+    //   width: 6px;
+    //   height: 6px;
+    //   border-radius: 50%;
+    //   background-color: #fff;
+    // }
   }
 }
 </style>

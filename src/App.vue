@@ -1,5 +1,7 @@
 <template>
   <div class="wrapper">
+    <Particles/>
+
     <Header/>
 
     <router-view/>
@@ -11,6 +13,7 @@
 <script setup>
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
+import Particles from '@/components/Particles.vue';
 </script>
 
 <style lang="scss">
@@ -18,7 +21,7 @@ import Footer from '@/components/Footer.vue';
 @import '@/assets/scss/_global.scss';
 @import '@/assets/scss/vars.scss';
 @import '@/assets/scss/main.scss';
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Roboto+Slab&family=Rubik:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700;900&family=Roboto+Slab&family=Rubik:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&display=swap');
 
 body {
@@ -33,6 +36,7 @@ body {
   min-height: 100vh;
   display: grid;
   grid-template: 1fr 100px / 1fr;
+  overflow: hidden;
 }
 
 [class*="__container"] {

@@ -52,6 +52,7 @@ const onLinkClick = link => {
 onMounted(() => {
   navLinks.value.map(l => l.path !== route.path ? l.active = false : l.active = true);
 });
+
 </script>
 
 <style lang="scss" scoped>
@@ -61,12 +62,13 @@ onMounted(() => {
   position: fixed;
   height: 100px;
   width: 100%;
-  background-image: linear-gradient(to bottom, 
+  background: linear-gradient(to bottom, 
     rgba(0, 0, 0, 1) 0%, 
     rgba(0, 0, 0, .75) 50%, 
     rgba(0, 0, 0, .5) 75%, 
     rgba(0, 0, 0, 0) 100%
   );
+  z-index: 10;
 
   &__container {
   }
